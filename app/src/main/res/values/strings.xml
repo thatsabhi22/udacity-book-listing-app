@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">udacity-book-listing-app</string>
+    <string name="app_title">Book List</string>
+    <string name="search_hint">Enter Book Title</string>
+    <string name="search_button_caption">Search</string>
+    <string name="book_title"><![CDATA[<book_title>]]></string>
+    <string name="list_price"><![CDATA[<list_price>]]></string>
+    <string name="retail_price"><![CDATA[<retail_price>]]></string>
 </resources>
