@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_launcher_background"
-        tools:ignore="VectorDrawableCompat" />
+    android:layout_height="?android:attr/listPreferredItemHeightLarge"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -40,29 +32,7 @@
             android:gravity="center_vertical"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
-            android:text="@string/book_title" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:gravity="center_vertical|end"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/list_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:text="@string/list_price" />
-
-        <TextView
-            android:id="@+id/retail_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:text="@string/retail_price" />
+            android:text="@string/author_name" />
     </LinearLayout>
 
     <ImageView

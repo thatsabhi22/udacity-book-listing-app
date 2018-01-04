@@ -1,6 +1,8 @@
 package com.theleafapps.pro.udacitybooklistingapp;
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,42 +54,35 @@ public final class QueryUtils {
 
             for (int i = 0; i < items.length(); i++) {
 
-//                /**
-//                 * Parsing the JSON to extract meaningful information i.e. book_title, author names
-//                 * list_price, retail_price for Book Objects
-//                 */
-//                JSONObject quake = (JSONObject) features.get(i);
-//
-//                JSONObject properties = quake.getJSONObject("properties");
-//
-//                //Extract the magnitude of the quake
-//                Double magnitude = properties.getDouble("mag");
-//
-//                //Extract the place of the quake
-//                String place = properties.getString("place");
-//
-//                //Extract the time of the quake
-//                long time = properties.getLong("time");
-//
-//                //Extract url of the USGS website for specific earthquake
-//                String url = properties.getString("url");
-//
-//                //Create the new earthquake object with the parsed values
-//                Earthquake earthquake = new Earthquake(Double.valueOf(formatMagnitude(magnitude)), place,
-//                        formatDate(time), formatTime(time), url);
-//
-//                //Add the earthquake object the earthquake list
-//                earthquakes.add(earthquake);
+                /**
+                 * Parsing the JSON to extract meaningful information i.e. book_title, author names
+                 * list_price, retail_price for Book Objects
+                 */
+                JSONObject item = (JSONObject) items.get(i);
+
+                JSONObject volumeInfo = item.getJSONObject("volumeInfo");
+
+                String title = volumeInfo.getString("title");
+
+                JSONArray authors = volumeInfo.getJSONArray("authors");
+
+                String authorsString = authors.join(",");
+
+                String infoLink = volumeInfo.getString("infoLink");
+
+                Book book = new Book(title, authorsString, infoLink);
+
+                books.add(book);
 
             }
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
         }
 
-        // Return the list of earthquakes
+        // Return the list of books
         return books;
     }
 
@@ -104,16 +98,6 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
         return url;
-    }
-
-
-    /**
-     * Return the formatted price string showing 1 decimal place (i.e. "3.2")
-     * from a decimal magnitude value.
-     */
-    private static String formatBookPrice(double price) {
-        DecimalFormat magnitudeFormat = new DecimalFormat("0.000");
-        return magnitudeFormat.format(price);
     }
 
     /**
@@ -145,7 +129,7 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the books JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -202,5 +186,18 @@ public final class QueryUtils {
             }
         }
         return output.toString();
+    }
+
+    /**
+     * Method hides the keyboard from display
+     *
+     * @param activity requires activity class object
+     */
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

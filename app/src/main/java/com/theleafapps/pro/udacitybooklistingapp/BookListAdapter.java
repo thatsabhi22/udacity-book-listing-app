@@ -3,7 +3,6 @@ package com.theleafapps.pro.udacitybooklistingapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,19 +54,7 @@ public class BookListAdapter extends ArrayAdapter<Book> {
 
         TextView authors_name = (TextView) listItemView.findViewById(R.id.authors_name);
 
-        AuthorList authorList = currentBook.getAuthorList();
-
-        List<String> authorNames = authorList.getAuthors();
-
-        authors_name.setText(TextUtils.join(",", authorNames));
-
-        TextView list_price = (TextView) listItemView.findViewById(R.id.list_price);
-
-        list_price.setText(String.valueOf(currentBook.getList_price()));
-
-        TextView retail_price = (TextView) listItemView.findViewById(R.id.retail_price);
-
-        retail_price.setText(String.valueOf(currentBook.getRetail_price()));
+        authors_name.setText(currentBook.getAuthorList());
 
         return listItemView;
     }
