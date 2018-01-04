@@ -4,12 +4,16 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -110,7 +114,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
                 bookListAdapter.clear();
 
                 searchQuery = search_book_edit_text.getText().toString();
-                
+
                 if (TextUtils.isEmpty(searchQuery)) {
                     search_book_edit_text.setError("Please enter something");
                 } else {
@@ -174,10 +178,16 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String maxBookResults = sharedPrefs.getString(
+                getString(R.string.settings_max_book_results_key),
+                getString(R.string.settings_max_book_results_default));
+
         Uri baseUri = Uri.parse(GOOGLE_BOOK_LIST_API_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("q", searchQuery);
-        uriBuilder.appendQueryParameter("maxResults", "10");
+        uriBuilder.appendQueryParameter("maxResults", maxBookResults);
 
         // Create a new loader for the given URL
         return new BookListLoader(this, uriBuilder.toString());
@@ -211,6 +221,23 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     public void onLoaderReset(Loader<List<Book>> loader) {
         // Clear the adapter of previous booklist data
         bookListAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void showProgressBar() {
