@@ -55,8 +55,8 @@ public final class QueryUtils {
             for (int i = 0; i < items.length(); i++) {
 
                 /**
-                 * Parsing the JSON to extract meaningful information i.e. book_title, author names
-                 * list_price, retail_price for Book Objects
+                 * Parsing the JSON to extract meaningful information i.e. book_title, author_names
+                 * WebUrl for Book Objects
                  */
                 JSONObject item = (JSONObject) items.get(i);
 

@@ -33,7 +33,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private static final int BOOK_LIST_LOADER_ID = 1;
 
     /**
-     * URL for a USGS JSON Response
+     * URL for a Google Book API JSON Response
      */
     private static final String GOOGLE_BOOK_LIST_API_URL = "https://www.googleapis.com/books/v1/volumes";
 
